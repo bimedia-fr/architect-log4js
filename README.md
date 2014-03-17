@@ -9,7 +9,17 @@ Expose [log4js](https://github.com/nomiddlename/log4js-node) as architect servic
 npm install --save architect-log4js
 ```
 ### Config Format
-
+```js
+{
+  "packagePath": "architect-log4js",
+  "config": {
+    "appenders": [
+        { "type": "console" }
+    ],
+    "replaceConsole": true
+  }
+}
+```
 
 ### Usage
 
