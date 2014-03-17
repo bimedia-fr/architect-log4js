@@ -28,5 +28,8 @@
     "provides": [
       "log"
     ]
+  },
+  "devDependencies": {
+    "vows": "~0.7.0"
   }
 }
