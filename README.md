@@ -36,7 +36,9 @@ architect.createApp(config, function (err, app) {
     if (err) {
         throw err;
     }
-    console.log("app ready");
+    //app.services.log is avaliable now
+    var log = app.services.log.getLogger('app');
+    log.info('application started');
 });
 ```
 
