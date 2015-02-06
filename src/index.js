@@ -11,7 +11,7 @@ module.exports = function (options, imports, register) {
         log4js.configure(options.config);
     }
 
-    log4js.requetLogger = reqLogger(options.request || {}, log4js);
+    log4js.requestLogger = reqLogger(options.request || {}, log4js);
 
     var logger = log4js.getLogger('app');
 
