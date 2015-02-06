@@ -99,5 +99,5 @@ This will produce :
 ```
 #### options
 
-* request.property :  request property to log defaults to 'url'.
-* request.format : {string} message format defaults to '[%s] %s', where first placeholder is the request property and the second is the actual message.
+* request.property :  request property to log defaults to ```'url'```.
+* request.format : {string} message format defaults to ```'[%s] %s'```, where first placeholder is the request property and the second is the actual message.
