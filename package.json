@@ -1,6 +1,6 @@
 {
   "name": "architect-log4js",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Architect plugin to provide logging facilities.",
   "main": "src/index.js",
   "scripts": {
@@ -22,7 +22,7 @@
     "url": "https://github.com/bimedia-fr/architect-log4js/issues"
   },
   "dependencies": {
-    "log4js": "~0.6.12"
+    "log4js": "^0.6.22"
   },
   "devDependencies": {
     "vows": "~0.7.0"

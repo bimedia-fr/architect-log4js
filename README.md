@@ -82,3 +82,22 @@ module.exports = function setup(options, imports, register) {
     register();
 };
 ```
+### request logger
+This module provides a log request feature that is not available in log4js itself.
+
+Example :
+
+```js
+    rest.get('/', function(req, res) {
+        var logger = imports.log.requestLogger(req).getLogger(); //get default logger
+        log.info('plugin initialized.');
+    });
+```
+This will produce :
+```
+[2015-02-06 16:03:54.329] [INFO] - [/] récupération des stocks
+```
+#### options
+
+* request.property :  request property to log defaults to 'url'.
+* request.format : {string} message format defaults to '[%s] %s', where first placeholder is the request property and the second is the actual message.

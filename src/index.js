@@ -2,6 +2,7 @@
 "use strict";
 
 var log4js = require('log4js');
+var reqLogger = require('./request-logger');
 
 module.exports = function (options, imports, register) {
     var hub = imports.hub;
@@ -9,6 +10,8 @@ module.exports = function (options, imports, register) {
     if (options.config) {
         log4js.configure(options.config);
     }
+
+    log4js.requetLogger = reqLogger(options.request || {}, log4js);
 
     var logger = log4js.getLogger('app');
 
