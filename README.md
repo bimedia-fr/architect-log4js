@@ -95,7 +95,7 @@ Example :
 ```
 This will produce :
 ```
-[2015-02-06 16:03:54.329] [INFO] - [/] récupération des stocks
+[2015-02-06 16:03:54.329] [INFO] - [/] plugin initialized.
 ```
 #### options
 
