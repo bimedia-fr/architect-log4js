@@ -18,7 +18,14 @@ module.exports = function (options, imports, register) {
     hub.on('log.error', logger.error.bind(logger));
     hub.on('log.info', logger.info.bind(logger));
 
-    register(null, {log: log4js});
+    register(null, {
+        onDestruct: function destroy(callback) {
+            log4js.shutdown(function () {//flush on destroy
+                callback();
+            });
+        },
+        log: log4js
+    });
 };
 
 module.exports.provides = ['log'];
