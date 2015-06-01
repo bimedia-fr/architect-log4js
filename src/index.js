@@ -19,7 +19,7 @@ module.exports = function (options, imports, register) {
     hub.on('log.info', logger.info.bind(logger));
 
     register(null, {
-        onDestruct: function destroy(callback) {
+        onDestroy: function destroy(callback) {
             log4js.shutdown(function () {//flush on destroy
                 callback();
             });
