@@ -51,7 +51,6 @@ module.exports = function (config, log4js) {
         var ppty = getProperty(req, property);
         return {
             getLogger: function (name) {
-                var args = Array.prototype.slice.call(arguments);
                 var logger = log4js.getLogger(name);
                 var res = wrapLoggers({}, function (level) {
                     return function () {
