@@ -15,8 +15,10 @@ module.exports = function (options, imports, register) {
 
     var logger = log4js.getLogger('app');
 
-    hub.on('log.error', logger.error.bind(logger));
-    hub.on('log.info', logger.info.bind(logger));
+    if (hub) {
+        hub.on('log.error', logger.error.bind(logger));
+        hub.on('log.info', logger.info.bind(logger));
+    }
 
     register(null, {
         onDestroy: function destroy() {
