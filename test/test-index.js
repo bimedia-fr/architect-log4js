@@ -15,9 +15,17 @@ vows.describe('Log4js Achitect Service').addBatch({
         },
         'and then initializing the service' : {
             topic: function (log4jsservice) {
-                return log4jsservice({}, { hub: emitter }, this.callback);
+                return log4jsservice({
+                    config: {
+                        appenders: { console: { type: 'console' }},
+                        categories: {
+                            default: { appenders: ['console'], level: 'trace' }
+                        }
+                    }
+                }, { hub: emitter }, this.callback);
             },
             'we get a `log` service' : function (err, services) {
+                assert.ifError(err);
                 assert.ok(services.log);
             },
             'on which we call `getLogger`' : {
@@ -29,6 +37,7 @@ vows.describe('Log4js Achitect Service').addBatch({
                     assert.ok(logger.info);
                     assert.ok(logger.error);
                     assert.ok(logger.debug);
+                    logger.info('logger is working');
                 }
             }
         }
