@@ -13,11 +13,15 @@ npm install --save architect-log4js
 {
   "packagePath": "architect-log4js",
   "config": {
-    "appenders": [
-        { "type": "console" }
-    ],
-    "replaceConsole": true
+    appenders: {
+      out: { type: 'console' }
+    },
+    categories: {
+      default: { appenders: [ 'out' ], level: 'info' }
+    }
   }
+}
+
 }
 ```
 
