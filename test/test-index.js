@@ -1,45 +1,44 @@
-/*jslint node : true, nomen: true, plusplus: true, vars: true*/
-/*global toString : true*/
-"use strict";
 
-var assert = require('assert'), vows = require('vows'), events = require('events');
+var assert = require('assert');
+var events = require('events');
+var log4jsservice  = require('../src/index');
 
 var emitter = new events.EventEmitter();
-vows.describe('Log4js Achitect Service').addBatch({
-    'when requiring a log4js service ' : {
-        topic : function () {
-            return require('../src/index');
-        },
-        'it exports a function' : function (log4jsservice) {
-            assert.isFunction(log4jsservice);
-        },
-        'and then initializing the service' : {
-            topic: function (log4jsservice) {
-                return log4jsservice({
-                    config: {
-                        appenders: { console: { type: 'console' }},
-                        categories: {
-                            default: { appenders: ['console'], level: 'trace' }
-                        }
-                    }
-                }, { hub: emitter }, this.callback);
-            },
-            'we get a `log` service' : function (err, services) {
-                assert.ifError(err);
-                assert.ok(services.log);
-            },
-            'on which we call `getLogger`' : {
-                topic: function (services) {
-                    emitter.emit('log.info', 'information message');
-                    return services.log.getLogger();
-                },
-                'we get a new default logger' : function (logger) {
-                    assert.ok(logger.info);
-                    assert.ok(logger.error);
-                    assert.ok(logger.debug);
-                    logger.info('logger is working');
-                }
-            }
+
+const CONFIG = {
+    config: {
+        appenders: { console: { type: 'console' } },
+        categories: {
+            default: { appenders: ['console'], level: 'trace' }
         }
     }
-}).exportTo(module);
+};
+describe('Log4js Achitect Service', function() {
+    describe('requiring a log4js service ', function() {
+        it('should export a function', function (done) {
+            assert.ok(log4jsservice);
+            assert.ok(typeof log4jsservice == 'function')
+            done();
+        });
+    });
+    describe('initializing the service', function() {
+        var log;
+        it('should get a `log` service', function(done) {
+            log4jsservice(CONFIG, { hub: emitter }, function (err, services) {
+                assert.ifError(err);
+                assert.ok(services.log);
+                log = services.log
+                done();
+            });
+        });
+        it('should expose a getLogger method', function(done) {
+            emitter.emit('log.info', 'information message');
+            var logger = log.getLogger();
+            assert.ok(logger.info);
+            assert.ok(logger.error);
+            assert.ok(logger.debug);
+            logger.info('logger is working');
+            done();
+        });
+    });
+});
