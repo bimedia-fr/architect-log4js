@@ -46,7 +46,7 @@ function getProperty(obj, ppty) {
 
 module.exports = function (config, log4js) {
     var property = config.property || 'url';
-    var format = config.format || '[%s] %s';
+    var format = config.format || '[%s] %s';
     return function (req) {
         var ppty = getProperty(req, property);
         return {

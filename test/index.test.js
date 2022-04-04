@@ -1,6 +1,7 @@
 
 var assert = require('assert');
 var events = require('events');
+var mock = require('mock-require');
 var log4jsservice  = require('../src/index');
 
 var emitter = new events.EventEmitter();

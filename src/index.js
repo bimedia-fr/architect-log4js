@@ -9,17 +9,32 @@ const reqLogger = require('./request-logger');
  * @param  {(arg0: null, arg1: { onDestroy: () => void; log: typeof log4js; }) => void}  register 
  */
 module.exports = function (options, imports, register) {
-    var hub = imports.hub;
+    let hub = imports.hub;
+    let config = JSON.parse(JSON.stringify(options.config));
 
-    if (options.config) {
-        log4js.configure(options.config);
-    }
 
+    let fileDateAppenders = Object.keys(config.appenders).filter((a) => config.appenders[a] && config.appenders[a].type === 'dateFile');
+
+    fileDateAppenders.forEach((appenderName) => {
+        // ensure defaults
+        let appender = config.appenders[appenderName];
+        if (appender) {
+            appender.pattern = appender.pattern || 'yyyy-MM-dd'
+            appender.encoding = appender.encoding || 'utf8';
+            appender.mode = appender.mode || '0o644';
+            appender.numBackups = appender.numBackups || 90;
+            appender.compress = appender.hasOwnProperty('compress') ? appender.compress : true;
+            appender.keepFileExt = appender.hasOwnProperty('keepFileExt') ? appender.keepFileExt : true;
+            // appender.fileNameSep = appender.fileNameSep || '.';
+        }
+    });
+
+    log4js.configure(config);
     log4js.requestLogger = reqLogger(options.request || {}, log4js);
 
-    var logger = log4js.getLogger('app');
+    let logger = log4js.getLogger('app');
 
-    if (hub) {
+    if (hub) {
         hub.on('log.error', logger.error.bind(logger));
         hub.on('log.info', logger.info.bind(logger));
     }

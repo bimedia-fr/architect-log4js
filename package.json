@@ -4,7 +4,7 @@
     "description": "Architect plugin to provide logging facilities.",
     "main": "src/index.js",
     "scripts": {
-        "test": "mocha test/test-*.js"
+        "test": "find test -type f -iname '*.test.js' | xargs nyc --reporter=lcov --reporter=text mocha"
     },
     "repository": {
         "type": "git",
@@ -22,9 +22,11 @@
         "url": "https://github.com/bimedia-fr/architect-log4js/issues"
     },
     "dependencies": {
-        "log4js": "^6.3.0"
+        "log4js": "^6.4.4"
     },
     "devDependencies": {
-        "mocha": "^9.2.0"
+        "mock-require": "^3.0.3",
+        "mocha": "^9.2.0",
+        "nyc": "^15.1.0"
     }
 }
