@@ -25,6 +25,7 @@ module.exports = function (options, imports, register) {
             appender.numBackups = appender.numBackups || 90;
             appender.compress = appender.hasOwnProperty('compress') ? appender.compress : true;
             appender.keepFileExt = appender.hasOwnProperty('keepFileExt') ? appender.keepFileExt : true;
+            appender.alwaysIncludePattern = appender.hasOwnProperty('alwaysIncludePattern') ? appender.alwaysIncludePattern : false;
             // appender.fileNameSep = appender.fileNameSep || '.';
         }
     });
