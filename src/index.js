@@ -21,7 +21,7 @@ module.exports = function (options, imports, register) {
         if (appender) {
             appender.pattern = appender.pattern || 'yyyy-MM-dd'
             appender.encoding = appender.encoding || 'utf8';
-            appender.mode = appender.mode || '0o644';
+            appender.mode = appender.mode || 0o644;
             appender.numBackups = appender.numBackups || 90;
             appender.compress = appender.hasOwnProperty('compress') ? appender.compress : true;
             appender.keepFileExt = appender.hasOwnProperty('keepFileExt') ? appender.keepFileExt : true;
