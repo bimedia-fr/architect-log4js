@@ -48,7 +48,12 @@ module.exports = function (config, log4js) {
     var property = config.property || 'url';
     var format = config.format || '[%s] %s';
     return function (req) {
-        var ppty = getProperty(req, property);
+        var ppty;
+        if(typeof property === 'function') {
+            ppty = property(req);
+        } else {
+            ppty = getProperty(req, property);
+        }
         return {
             getLogger: function (name) {
                 var logger = log4js.getLogger(name);
