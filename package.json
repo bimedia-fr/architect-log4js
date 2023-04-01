@@ -22,7 +22,7 @@
         "url": "https://github.com/bimedia-fr/architect-log4js/issues"
     },
     "dependencies": {
-        "log4js": "^6.4.4"
+        "log4js": "^6.9.1"
     },
     "devDependencies": {
         "mock-require": "^3.0.3",
