@@ -60,8 +60,7 @@ module.exports = function (config, log4js) {
                 var res = wrapLoggers({}, function (level) {
                     return function () {
                         var args = [].slice.apply(arguments);
-                        var serial = (typeof args[0] == 'object') ? JSON.stringify : String;
-                        args[0] = util.format(format, ppty, serial(args[0]));
+                        args[0] = util.format(format, ppty, args[0]);
                         logger[level].apply(logger, args);
                     };
                 });
