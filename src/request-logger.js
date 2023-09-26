@@ -60,11 +60,8 @@ module.exports = function (config, log4js) {
                 var res = wrapLoggers({}, function (level) {
                     return function () {
                         var args = [].slice.apply(arguments);
-                        if(args[0] instanceof Error) {
-                            args[0] = util.format(format, ppty, args[0]);
-                        }
-                        else if(!(args[0] instanceof Error) && typeof args[0] === 'object') {
-                            args[0] = util.format(format, ppty, JSON.stringify(args[0]));
+                        if(typeof args[0] === 'object') {
+                            args[0] = util.format(format, ppty, args[0] instanceof Error ? args[0] : JSON.stringify(args[0]));
                         }
                         else {
                             args[0] = util.format(format, ppty, String(args[0]));
