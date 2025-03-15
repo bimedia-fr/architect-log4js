@@ -1,12 +1,36 @@
+/**
+ * @typedef {Object} Log4jsWithRequest
+ * @extends import('log4js').Log4js
+ * @property {reqLogger} requestLogger
+ */
+/**
+ * @type Log4jsWithRequest
+ * allow to add attribute to base object.
+ */
 const log4js = require('log4js');
 const reqLogger = require('./request-logger');
+const { EventEmitter } = require('stream');
 
 
 /**
+ * @typedef {Object} ModuleOptions
+ * @property {String} packagePath log4js module path
+ * @property {import('log4js').Configuration} config log4js configuration
+ * @property {Object} request configure request aware logger
+ * @property {String} request.property property name to pick from request
+ */
+
+/**
+ * @typedef {Object} ModuleExport
+ * @property {Log4jsWithRequest} log
+ * @property {function():void} onDestroy
+ */
+
+/**
  * 
- * @param {{ config: string; request: any; }} options 
- * @param {{ hub: any; }} imports 
- * @param  {(arg0: null, arg1: { onDestroy: () => void; log: typeof log4js; }) => void}  register 
+ * @param {ModuleOptions} options 
+ * @param {{ hub: EventEmitter; }} imports 
+ * @param  {function (Error|null, ModuleExport):void}  register 
  */
 module.exports = function (options, imports, register) {
     let hub = imports.hub;

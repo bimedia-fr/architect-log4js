@@ -3,8 +3,11 @@
     "version": "4.2.1",
     "description": "Architect plugin to provide logging facilities.",
     "main": "src/index.js",
+    "types": "types/index.d.ts",
     "scripts": {
-        "test": "find test -type f -iname '*.test.js' | xargs nyc --reporter=lcov --reporter=text mocha"
+        "test": "find test -type f -iname '*.test.js' | xargs nyc --reporter=lcov --reporter=text mocha",
+        "types": "tsc src/*.js --declaration --allowJs --emitDeclarationOnly --outDir types",
+        "check": "tsc --project ./jsconfig.json"
     },
     "repository": {
         "type": "git",
@@ -25,8 +28,10 @@
         "log4js": "^6.9.1"
     },
     "devDependencies": {
-        "mock-require": "^3.0.3",
+        "@types/node": "^22.13.10",
         "mocha": "^9.2.0",
-        "nyc": "^15.1.0"
+        "mock-require": "^3.0.3",
+        "nyc": "^15.1.0",
+        "typescript": "^5.8.2"
     }
 }
