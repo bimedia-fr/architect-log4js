@@ -1,16 +1,12 @@
-/**
- * @typedef {Object} Log4jsWithRequest
- * @extends import('log4js').Log4js
- * @property {reqLogger} requestLogger
- */
-/**
- * @type Log4jsWithRequest
- * allow to add attribute to base object.
- */
+
 const log4js = require('log4js');
 const reqLogger = require('./request-logger');
 const { EventEmitter } = require('stream');
 
+/**
+ * @typedef {import('log4js').Log4js} Log4jsWithRequest
+ * @property {reqLogger} requestLogger
+ */
 
 /**
  * @typedef {Object} ModuleOptions
@@ -55,6 +51,7 @@ module.exports = function (options, imports, register) {
     });
 
     log4js.configure(config);
+    // @ts-ignore for backward compatibility
     log4js.requestLogger = reqLogger(options.request || {}, log4js);
 
     let logger = log4js.getLogger('app');

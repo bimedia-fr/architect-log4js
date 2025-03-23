@@ -11,5 +11,6 @@ type RequestOptions = {
     /**
      * property output format
      */
-    format?: string;
+    format?: string | undefined;
 };
+//# sourceMappingURL=request-logger.d.ts.map

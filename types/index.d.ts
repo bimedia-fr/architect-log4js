@@ -9,7 +9,7 @@ declare namespace _exports {
     let consumes: string[];
 }
 export = _exports;
-type Log4jsWithRequest = any;
+type Log4jsWithRequest = import("log4js").Log4js;
 type ModuleOptions = {
     /**
      * log4js module path
@@ -31,3 +31,4 @@ type ModuleExport = {
     onDestroy: () => void;
 };
 import { EventEmitter } from "events";
+//# sourceMappingURL=index.d.ts.map

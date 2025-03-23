@@ -6,8 +6,7 @@
     "types": "types/index.d.ts",
     "scripts": {
         "test": "find test -type f -iname '*.test.js' | xargs nyc --reporter=lcov --reporter=text mocha",
-        "types": "tsc src/*.js --declaration --allowJs --emitDeclarationOnly --outDir types",
-        "check": "tsc --project ./jsconfig.json"
+        "types": "tsc"
     },
     "repository": {
         "type": "git",
