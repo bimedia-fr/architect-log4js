@@ -1,6 +1,6 @@
 {
     "name": "architect-log4js",
-    "version": "4.2.1",
+    "version": "4.3.0",
     "description": "Architect plugin to provide logging facilities.",
     "main": "src/index.js",
     "types": "types/index.d.ts",
