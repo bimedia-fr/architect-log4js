@@ -1,18 +1,36 @@
-/*jslint node : true, nomen: true, plusplus: true, vars: true, eqeq: true,*/
-"use strict";
+const util = require('util');
 
-var util = require('util');
-
+/**
+ * Check wether arg is a function.
+ * @param {Function} fn object to test
+ * @returns {Boolean} true if fn is a function
+ */
 function isFunc(fn) {
-    return typeof fn == 'function';
+    return typeof fn === 'function';
 }
 
+/**
+ * Capitalize first letter of argument.
+ * @param {String} str string to capitalize.
+ * @returns {String} capitalized string
+ */
 function capitalizeFirst(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-var LEVELS = ['info', 'debug', 'warn', 'trace', 'error'];
+/**
+ * Logger levels
+ * @type {Array<String>}
+ */
+const LEVELS = ['info', 'debug', 'warn', 'trace', 'error'];
 
+/**
+ * 
+ * @param {Object} items 
+ * @param {import('log4js').Logger} log 
+ * @param {*} def 
+ * @returns 
+ */
 function wrap(items, log, def) {
     return items.reduce(function (prev, curr) {
         var existing = prev[curr] && isFunc(prev[curr]);
@@ -23,19 +41,36 @@ function wrap(items, log, def) {
     }, log);
 }
 
+/**
+ * 
+ * @param {Object} log 
+ * @param {function(String): function} def 
+ * @returns 
+ */
 function wrapLoggers(log, def) {
     return wrap(LEVELS, log, def);
 }
 
+/**
+ * 
+ * @param {import('log4js').Logger} log
+ * @param {*} def 
+ * @returns 
+ */
 function wrapEnabled(log, def) {
     return wrap(LEVELS.map(function (level) {
         return 'is' + capitalizeFirst(level) + 'Enabled';
     }), log, def);
 }
 
+/**
+ * 
+ * @param {Object} obj object to pick property from
+ * @param {String} ppty property name 
+ * @returns {Object} object property value
+ */
 function getProperty(obj, ppty) {
-    var subs = ppty.split('.');
-    var val;
+    const subs = ppty.split('.');
     return subs.reduce(function (prev, curr) {
         if (!prev) {
             return;
@@ -44,22 +79,34 @@ function getProperty(obj, ppty) {
     }, obj);
 }
 
+/**
+ * @typedef {Object} RequestOptions
+ * @property {String|function(import('http').IncomingMessage):String} property property name to pick from request
+ * @property {String} [format] property output format
+ */
+
+/**
+ * 
+ * @param {RequestOptions} config 
+ * @param {import('log4js').Log4js} log4js 
+ * @returns {function(import('http').IncomingMessage)}
+ */
 module.exports = function (config, log4js) {
-    var property = config.property || 'url';
-    var format = config.format || '[%s] %s';
+    const property = config.property || 'url';
+    const format = config.format || '[%s] %s';
     return function (req) {
-        var ppty;
-        if(typeof property === 'function') {
-            ppty = property(req);
-        } else {
-            ppty = getProperty(req, property);
-        }
+        const ppty = (typeof property === 'function') ? property(req) : getProperty(req, property);
         return {
+            /**
+             * 
+             * @param {String} name logger name
+             * @returns {import('log4js').Logger}
+             */
             getLogger: function (name) {
-                var logger = log4js.getLogger(name);
-                var res = wrapLoggers({}, function (level) {
+                const logger = log4js.getLogger(name);
+                const res = wrapLoggers({}, function (level) {
                     return function () {
-                        var args = [].slice.apply(arguments);
+                        const args = [].slice.apply(arguments);
                         if(typeof args[0] === 'object') {
                             args[0] = util.format(format, ppty, args[0] instanceof Error ? args[0] : JSON.stringify(args[0]));
                         }

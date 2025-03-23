@@ -1,0 +1,28 @@
+{
+    "compilerOptions": {
+      "strict": true,
+      "noImplicitAny": false,
+      "strictFunctionTypes": true,
+      "strictPropertyInitialization": true,
+      "strictBindCallApply": true,
+      "noImplicitThis": true,
+      "noImplicitReturns": true,
+      "alwaysStrict": true,
+      "esModuleInterop": true,
+      "checkJs": true,
+      "allowJs": true,
+      "declaration": true,
+      "emitDeclarationOnly": true,
+      "target": "ES2016",
+      "module": "CommonJS",
+      "moduleResolution": "node",
+      "outDir": "types",
+      // go to js file when using IDE functions like
+      // "Go to Definition" in VSCode
+      "declarationMap": true
+    },
+    "include": [
+      "./src/**/*.js"
+    ],
+    "verbose": true
+  }
