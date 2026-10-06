@@ -81,15 +81,24 @@ function getProperty(obj, ppty) {
 
 /**
  * @typedef {Object} RequestOptions
- * @property {String|function(import('http').IncomingMessage):String} property property name to pick from request
+ * @property {String|function(import('http').IncomingMessage):String} [property] property name to pick from request
  * @property {String} [format] property output format
+ */
+
+/**
+ * @typedef {Object} RequestLogger
+ * @property {function(String): import('log4js').Logger} getLogger
+ */
+
+/**
+ * @typedef {function(import('http').IncomingMessage): RequestLogger} RequestLoggerFactory
  */
 
 /**
  * 
  * @param {RequestOptions} config 
  * @param {import('log4js').Log4js} log4js 
- * @returns {function(import('http').IncomingMessage)}
+ * @returns {RequestLoggerFactory}
  */
 module.exports = function (config, log4js) {
     const property = config.property || 'url';

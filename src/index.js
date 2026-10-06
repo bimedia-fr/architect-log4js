@@ -1,19 +1,23 @@
 
 const log4js = require('log4js');
 const reqLogger = require('./request-logger');
-const { EventEmitter } = require('stream');
+const { EventEmitter } = require('node:events');
 
 /**
- * @typedef {import('log4js').Log4js} Log4jsWithRequest
- * @property {reqLogger} requestLogger
+ * @typedef {import('log4js').Log4js} Log4js
+ * @typedef {import('log4js').Logger} Logger
+ * @typedef {import('log4js').Configuration} Configuration
+ * @typedef {import('./request-logger').RequestOptions} RequestOptions
+ * @typedef {import('./request-logger').RequestLogger} RequestLogger
+ * @typedef {import('./request-logger').RequestLoggerFactory} RequestLoggerFactory
+ * @typedef {Log4js & {requestLogger: RequestLoggerFactory}} Log4jsWithRequest
  */
 
 /**
  * @typedef {Object} ModuleOptions
  * @property {String} packagePath log4js module path
- * @property {import('log4js').Configuration} config log4js configuration
- * @property {Object} request configure request aware logger
- * @property {String} request.property property name to pick from request
+ * @property {Configuration} config log4js configuration
+ * @property {RequestOptions} [request] configure request aware logger
  */
 
 /**
@@ -25,7 +29,7 @@ const { EventEmitter } = require('stream');
 /**
  * 
  * @param {ModuleOptions} options 
- * @param {{ hub: EventEmitter; }} imports 
+ * @param {{ hub: EventEmitter }} imports 
  * @param  {function (Error|null, ModuleExport):void}  register 
  */
 module.exports = function (options, imports, register) {
@@ -51,8 +55,9 @@ module.exports = function (options, imports, register) {
     });
 
     log4js.configure(config);
-    // @ts-ignore for backward compatibility
-    log4js.requestLogger = reqLogger(options.request || {}, log4js);
+    const configuredLog4js = Object.assign(log4js, {
+        requestLogger: reqLogger(options.request || {}, log4js)
+    });
 
     let logger = log4js.getLogger('app');
 
@@ -67,7 +72,8 @@ module.exports = function (options, imports, register) {
                 //flushed
             });
         },
-        log: log4js
+        /** @type {Log4jsWithRequest} */
+        log: configuredLog4js
     });
 };
 
